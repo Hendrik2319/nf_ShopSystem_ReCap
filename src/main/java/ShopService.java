@@ -3,13 +3,13 @@ import lombok.RequiredArgsConstructor;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @SuppressWarnings("unused")
 @RequiredArgsConstructor
 public class ShopService {
     private final ProductRepo productRepo;
     private final OrderRepo orderRepo;
+    private final IdService idService;
 
     public Order addOrder(List<String> productIds) throws ProductNotFoundException {
         List<Product> products = new ArrayList<>();
@@ -22,7 +22,7 @@ public class ShopService {
                             )
             );
 
-        Order newOrder = new Order(UUID.randomUUID().toString(), products, ZonedDateTime.now());
+        Order newOrder = new Order(idService.generateId(), products, ZonedDateTime.now());
 
         return orderRepo.addOrder(newOrder);
     }

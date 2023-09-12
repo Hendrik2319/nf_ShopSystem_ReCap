@@ -13,7 +13,7 @@ public class Main {
         productRepo.addProduct(new Product("prod6", "Product 6"));
         productRepo.addProduct(new Product("prod7", "Product 7"));
 
-        ShopService shopService = new ShopService(productRepo, new OrderMapRepo());
+        ShopService shopService = new ShopService(productRepo, new OrderMapRepo(), new IdService());
 
         try {
             shopService.addOrder(List.of("prod1", "prod1", "prod2"));
