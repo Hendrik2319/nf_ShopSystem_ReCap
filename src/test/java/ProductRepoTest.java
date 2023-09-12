@@ -1,13 +1,16 @@
+import org.junit.jupiter.api.Test;
+
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProductRepoTest {
 
-    @org.junit.jupiter.api.Test
+    @Test
     void getProducts() {
         //GIVEN
         ProductRepo repo = new ProductRepo();
+        repo.getProducts().add(new Product("1", "Apfel"));
 
         //WHEN
         List<Product> actual = repo.getProducts();
@@ -18,10 +21,11 @@ class ProductRepoTest {
         assertEquals(actual, expected);
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void getProductById() {
         //GIVEN
         ProductRepo repo = new ProductRepo();
+        repo.getProducts().add(new Product("1", "Apfel"));
 
         //WHEN
         Optional<Product> actual = repo.getProductById("1");
@@ -33,10 +37,11 @@ class ProductRepoTest {
         assertEquals(actual.get(), expected);
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void addProduct() {
         //GIVEN
         ProductRepo repo = new ProductRepo();
+        repo.getProducts().add(new Product("1", "Apfel"));
         Product newProduct = new Product("2", "Banane");
 
         //WHEN
@@ -51,10 +56,11 @@ class ProductRepoTest {
         assertEquals(product.get(), expected);
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void removeProduct() {
         //GIVEN
         ProductRepo repo = new ProductRepo();
+        repo.getProducts().add(new Product("1", "Apfel"));
 
         //WHEN
         repo.removeProduct("1");
