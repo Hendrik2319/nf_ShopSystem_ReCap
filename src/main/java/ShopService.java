@@ -1,3 +1,4 @@
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.time.ZonedDateTime;
@@ -10,6 +11,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ShopService {
     private final ProductRepo productRepo;
+    @Getter
     private final OrderRepo orderRepo;
     private final IdService idService;
 
@@ -36,6 +38,7 @@ public class ShopService {
                 .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public boolean updateOrder(String id, OrderState orderState ) {
         Order order = orderRepo.getOrderById(id);
         if (order==null) return false;
