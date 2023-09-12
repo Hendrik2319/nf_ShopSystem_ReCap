@@ -4,25 +4,28 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Stream;
 
 public class Main {
 
-    @SuppressWarnings("ExtractMethodRecommender")
     public static void main(String[] args) {
 
         ProductRepo productRepo = new ProductRepo();
-        productRepo.addProduct(new Product("1", "Product 1"));
-        productRepo.addProduct(new Product("2", "Product 2"));
-        productRepo.addProduct(new Product("3", "Product 3"));
-        productRepo.addProduct(new Product("4", "Product 4"));
-        productRepo.addProduct(new Product("5", "Product 5"));
-        productRepo.addProduct(new Product("6", "Product 6"));
-        productRepo.addProduct(new Product("7", "Product 7"));
+        try {
+            productRepo.addProduct(new Product("1", "Product 1"));
+            productRepo.addProduct(new Product("2", "Product 2"));
+            productRepo.addProduct(new Product("3", "Product 3"));
+            productRepo.addProduct(new Product("4", "Product 4"));
+            productRepo.addProduct(new Product("5", "Product 5"));
+            productRepo.addProduct(new Product("6", "Product 6"));
+            productRepo.addProduct(new Product("7", "Product 7"));
+        } catch (ProductIdAlreadyExistsException e) {
+            System.err.printf("ProductIdAlreadyExistsException: %s%n", e.getMessage());
+            return;
+        }
+        print(productRepo);
+        System.out.println();
 
         ShopService shopService = new ShopService(productRepo, new OrderMapRepo(), new IdService());
 
@@ -39,6 +42,43 @@ public class Main {
 */
 
         new TransactionFileParser(new File("transactions.txt"), shopService).readTransactionsFile();
+    }
+
+    private static void print(ProductRepo productRepo) {
+        Map<String, Product> products = productRepo.getProducts();
+        System.out.printf("ProductRepo:   %d product(s)%n", products.size());
+        List<Product> productList = products.values().stream().sorted(Comparator.comparing(Product::name).thenComparing(Product::id)).toList();
+        for (int i = 0; i < productList.size(); i++) {
+            Product product = productList.get(i);
+            if (product==null)
+                System.out.printf("   [%d]  <null>%n", i+1);
+            else
+                System.out.printf("   [%d]  \"%s\"  [%s]%n", i+1, product.name(), product.id());
+        }
+    }
+
+    private static void print(ShopService shopService) {
+        List<Order> orders = shopService.getOrderRepo().getOrders();
+        System.out.printf("ShopService:   %d order(s)%n", orders.size());
+        for (int i = 0; i < orders.size(); i++) {
+            Order order = orders.get(i);
+            if (order==null)
+                System.out.printf("   [%d]  <null>%n", i+1);
+            else {
+                List<Product> products = order.products();
+                System.out.printf("   [%d]  ID: %s%n", i+1, order.id());
+                System.out.printf("      Order State: %s%n", order.orderState());
+                System.out.printf("      Order Date : %s%n", order.orderDate());
+                System.out.printf("      %d product(s)%n", products.size());
+                for (int j = 0; j < products.size(); j++) {
+                    Product product = products.get(j);
+                    if (product==null)
+                        System.out.printf("         [%d]  <null>%n", j+1);
+                    else
+                        System.out.printf("         [%d]  \"%s\"  [%s]%n", j+1, product.name(), product.id());
+                }
+            }
+        }
     }
 
     record TransactionFileParser(@NonNull File file, @NonNull ShopService shopService) {
@@ -62,15 +102,15 @@ public class Main {
 //                System.out.printf("parse [%d] \"%s\"%n", i, line);
 
                 if ((values = getValues(line, "addOrder")) != null) {
-                    addOrder(i, line, orderIds, values);
+                    addOrder(i+1, line, orderIds, values);
                 }
 
                 if ((values = getValues(line, "setStatus")) != null) {
-                    setStatus(i, line, orderIds, values);
+                    setStatus(i+1, line, orderIds, values);
                 }
 
                 if (line.equals("printOrders")) {
-                    printOrders(i, line);
+                    printOrders(i+1, line);
                 }
             }
 
@@ -130,28 +170,7 @@ public class Main {
         @SuppressWarnings("unused")
         private void printOrders(int lineIndex, String line) {
 //            System.out.printf("parse [%d] \"%s\" ->  %s%n", lineIndex, line, "printOrders");
-
-            List<Order> orders = shopService.getOrderRepo().getOrders();
-            System.out.printf("ShopService:   %d order(s)%n", orders.size());
-            for (int i = 0; i < orders.size(); i++) {
-                Order order = orders.get(i);
-                if (order==null)
-                    System.out.printf("   [%d]  <null>%n", i+1);
-                else {
-                    List<Product> products = order.products();
-                    System.out.printf("   [%d]  ID: %s%n", i+1, order.id());
-                    System.out.printf("      Order State: %s%n", order.orderState());
-                    System.out.printf("      Order Date : %s%n", order.orderDate());
-                    System.out.printf("      %d product(s)%n", products.size());
-                    for (int j = 0; j < products.size(); j++) {
-                        Product product = products.get(j);
-                        if (product==null)
-                            System.out.printf("         [%d]  <null>%n", j+1);
-                        else
-                            System.out.printf("         [%d]  \"%s\"  [%s]%n", j + 1, product.name(), product.id());
-                    }
-                }
-            }
+            print(shopService);
         }
 
         static String[] getValues(@NonNull String line, @NonNull String prefix) {
@@ -162,5 +181,6 @@ public class Main {
                     .substring(prefix.length())
                     .split(" ");
         }
+
     }
 }

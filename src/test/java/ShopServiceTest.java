@@ -11,7 +11,7 @@ class ShopServiceTest {
     void addOrderTest() {
         //GIVEN
         ProductRepo productRepo = new ProductRepo();
-        productRepo.getProducts().add(new Product("1", "Apfel", 10.5));
+        productRepo.getProducts().put("1", new Product("1", "Apfel", 10.5));
 
         ShopService shopService = new ShopService(productRepo, new OrderMapRepo(), new IdService());
         List<Need> needs = Need.builder().add("1", 1).getList();
@@ -35,7 +35,7 @@ class ShopServiceTest {
     void addOrderTest_whenInvalidProductId_expectException() {
         //GIVEN
         ProductRepo productRepo = new ProductRepo();
-        productRepo.getProducts().add(new Product("1", "Apfel", 10.5));
+        productRepo.getProducts().put("1", new Product("1", "Apfel", 10.5));
 
         ShopService shopService = new ShopService(productRepo, new OrderMapRepo(), new IdService());
         List<Need> needs = Need.builder().add("1", 1).add("2", 1).getList();

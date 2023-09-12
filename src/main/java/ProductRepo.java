@@ -1,37 +1,28 @@
 import lombok.Getter;
+import lombok.NonNull;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Getter
 public class ProductRepo {
-    private final List<Product> products;
+    private final Map<String,Product> products;
 
     public ProductRepo() {
-        products = new ArrayList<>();
+        products = new HashMap<>();
     }
 
     public Optional<Product> getProductById(String id) {
-        for (Product product : products) {
-            if (product.id().equals(id)) {
-                return Optional.of(product);
-            }
-        }
-        return Optional.empty();
+        return Optional.ofNullable(products.get(id));
     }
 
-    public Product addProduct(Product newProduct) {
-        products.add(newProduct);
-        return newProduct;
+    public void addProduct(@NonNull Product newProduct) throws ProductIdAlreadyExistsException {
+        if (products.containsKey(newProduct.id()))
+            throw new ProductIdAlreadyExistsException("Can't add product: A product with id \"%s\" already exists.", newProduct.id());
+        products.put(newProduct.id(), newProduct);
     }
 
-    public void removeProduct(String id) {
-        for (Product product : products) {
-           if (product.id().equals(id)) {
-               products.remove(product);
-               return;
-           }
-        }
+    @SuppressWarnings("UnusedReturnValue")
+    public Product removeProduct(String id) {
+        return products.remove(id);
     }
 }
