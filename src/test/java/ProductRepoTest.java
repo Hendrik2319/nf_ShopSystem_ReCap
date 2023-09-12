@@ -10,14 +10,14 @@ class ProductRepoTest {
     void getProducts() {
         //GIVEN
         ProductRepo repo = new ProductRepo();
-        repo.getProducts().add(new Product("1", "Apfel"));
+        repo.getProducts().put("1", new Product("1", "Apfel"));
 
         //WHEN
-        List<Product> actual = repo.getProducts();
+        Map<String, Product> actual = repo.getProducts();
 
         //THEN
-        List<Product> expected = new ArrayList<>();
-        expected.add(new Product("1", "Apfel"));
+        Map<String,Product> expected = new HashMap<>();
+        expected.put("1", new Product("1", "Apfel"));
         assertEquals(actual, expected);
     }
 
@@ -25,7 +25,7 @@ class ProductRepoTest {
     void getProductById() {
         //GIVEN
         ProductRepo repo = new ProductRepo();
-        repo.getProducts().add(new Product("1", "Apfel"));
+        repo.getProducts().put("1", new Product("1", "Apfel"));
 
         //WHEN
         Optional<Product> actual = repo.getProductById("1");
@@ -41,15 +41,19 @@ class ProductRepoTest {
     void addProduct() {
         //GIVEN
         ProductRepo repo = new ProductRepo();
-        repo.getProducts().add(new Product("1", "Apfel"));
+        repo.getProducts().put("1", new Product("1", "Apfel"));
         Product newProduct = new Product("2", "Banane");
 
         //WHEN
-        Product actual = repo.addProduct(newProduct);
+        try {
+            repo.addProduct(newProduct);
+        } catch (ProductIdAlreadyExistsException e) {
+            //THEN
+            fail();
+        }
 
         //THEN
         Product expected = new Product("2", "Banane");
-        assertEquals(actual, expected);
         Optional<Product> product = repo.getProductById("2");
         assertNotNull(product);
         assertTrue(product.isPresent());
@@ -60,7 +64,7 @@ class ProductRepoTest {
     void removeProduct() {
         //GIVEN
         ProductRepo repo = new ProductRepo();
-        repo.getProducts().add(new Product("1", "Apfel"));
+        repo.getProducts().put("1", new Product("1", "Apfel"));
 
         //WHEN
         repo.removeProduct("1");
