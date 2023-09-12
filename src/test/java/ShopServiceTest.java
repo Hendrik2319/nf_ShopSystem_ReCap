@@ -10,7 +10,10 @@ class ShopServiceTest {
     @Test
     void addOrderTest() {
         //GIVEN
-        ShopService shopService = new ShopService(new ProductRepo(), new OrderMapRepo(), new IdService());
+        ProductRepo productRepo = new ProductRepo();
+        productRepo.getProducts().add(new Product("1", "Apfel", 10.5));
+
+        ShopService shopService = new ShopService(productRepo, new OrderMapRepo(), new IdService());
         List<Need> needs = Need.builder().add("1", 1).getList();
 
         //WHEN
@@ -23,20 +26,23 @@ class ShopServiceTest {
         }
 
         //THEN
-        Order expected = new Order("-1", List.of(new Product("1", "Apfel")), ZonedDateTime.now());
+        Order expected = new Order("-1", List.of(new Product("1", "Apfel", 1)), ZonedDateTime.now());
         assertEquals(expected.products(), actual.products());
         assertNotNull(expected.id());
     }
 
     @Test
-    void addOrderTest_whenInvalidProductId_expectNull() {
+    void addOrderTest_whenInvalidProductId_expectException() {
         //GIVEN
-        ShopService shopService = new ShopService(new ProductRepo(), new OrderMapRepo(), new IdService());
-        List<String> productsIds = List.of("1", "2");
+        ProductRepo productRepo = new ProductRepo();
+        productRepo.getProducts().add(new Product("1", "Apfel", 10.5));
+
+        ShopService shopService = new ShopService(productRepo, new OrderMapRepo(), new IdService());
+        List<Need> needs = Need.builder().add("1", 1).add("2", 1).getList();
 
         //WHEN
 
         //THEN
-        assertThrows(ProductNotFoundException.class, () -> shopService.addOrder(productsIds));
+        assertThrows(ProductNotFoundException.class, () -> shopService.addOrder(needs));
     }
 }
