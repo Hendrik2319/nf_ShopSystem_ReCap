@@ -2,7 +2,9 @@ import lombok.RequiredArgsConstructor;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 
 @SuppressWarnings("unused")
 @RequiredArgsConstructor
@@ -41,5 +43,17 @@ public class ShopService {
         orderRepo.removeOrder(id);
         orderRepo.addOrder(order.withOrderState(orderState));
         return true;
+    }
+
+    public Map<OrderState,Order> getOldestOrderPerStatus() {
+        EnumMap<OrderState, Order> map = new EnumMap<>(OrderState.class);
+
+        orderRepo.getOrders().forEach(order -> {
+            Order oldestOrder = map.get(order.orderState());
+            if (oldestOrder==null || oldestOrder.orderDate().isAfter(order.orderDate()))
+                map.put(order.orderState(), order);
+        });
+
+        return map;
     }
 }
