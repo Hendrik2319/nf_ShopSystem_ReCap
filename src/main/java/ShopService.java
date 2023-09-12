@@ -15,16 +15,25 @@ public class ShopService {
     private final OrderRepo orderRepo;
     private final IdService idService;
 
-    public Order addOrder(List<String> productIds) throws ProductNotFoundException {
+    public Order addOrder(List<Need> productIds) throws ProductNotFoundException, NotEnoughAmountException {
         List<Product> products = new ArrayList<>();
-        for (String productId : productIds)
+        for (Need need : productIds) {
+            Product storedProduct = productRepo
+                    .getProductById(need.productId())
+                    .orElseThrow(
+                            () -> new ProductNotFoundException("Produkt mit der Id \"%s\" konnte nicht bestellt werden!", need.productId())
+                    );
+            if (storedProduct.amount() < need.amount())
+                throw new NotEnoughAmountException("Nicht genügend Lagerbestand vom Produkt mit der Id \"%s\" vorhanden!", need.productId());
+
+            storedProduct = storedProduct.withAmount( storedProduct.amount() - need.amount() );
+            productRepo.removeProduct(storedProduct.id());
+            productRepo.addProduct(storedProduct);
+
             products.add(
-                    productRepo
-                            .getProductById(productId)
-                            .orElseThrow(
-                                    () -> new ProductNotFoundException("Product mit der Id: %s konnte nicht bestellt werden!", productId)
-                            )
+                    storedProduct.withAmount( need.amount() )
             );
+        }
 
         Order newOrder = new Order(idService.generateId(), products, ZonedDateTime.now());
 

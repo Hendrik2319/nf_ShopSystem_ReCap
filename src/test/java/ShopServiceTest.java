@@ -11,13 +11,13 @@ class ShopServiceTest {
     void addOrderTest() {
         //GIVEN
         ShopService shopService = new ShopService(new ProductRepo(), new OrderMapRepo(), new IdService());
-        List<String> productsIds = List.of("1");
+        List<Need> needs = Need.builder().add("1", 1).getList();
 
         //WHEN
         Order actual = null;
         try {
-            actual = shopService.addOrder(productsIds);
-        } catch (ProductNotFoundException e) {
+            actual = shopService.addOrder(needs);
+        } catch (ProductNotFoundException | NotEnoughAmountException e) {
             //THEN
             fail();
         }

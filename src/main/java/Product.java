@@ -1,5 +1,9 @@
+import lombok.With;
+
+@With
 public record Product(
         String id,
-        String name
+        String name,
+        double amount
 ) {
 }
