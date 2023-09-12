@@ -29,4 +29,13 @@ public class ShopService {
                 .filter(o -> o.orderState() == orderState)
                 .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
     }
+
+    public boolean updateOrder(String id, OrderState orderState ) {
+        Order order = orderRepo.getOrderById(id);
+        if (order==null) return false;
+
+        orderRepo.removeOrder(id);
+        orderRepo.addOrder(order.withOrderState(orderState));
+        return true;
+    }
 }
