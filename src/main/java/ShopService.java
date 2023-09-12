@@ -21,4 +21,11 @@ public class ShopService {
 
         return orderRepo.addOrder(newOrder);
     }
+
+    public List<Order> listOrdersByOrderState( OrderState orderState ) {
+        return orderRepo.getOrders()
+                .stream()
+                .filter(o -> o.orderState() == orderState)
+                .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
+    }
 }
