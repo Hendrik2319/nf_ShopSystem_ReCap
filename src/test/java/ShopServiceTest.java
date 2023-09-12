@@ -13,7 +13,13 @@ class ShopServiceTest {
         List<String> productsIds = List.of("1");
 
         //WHEN
-        Order actual = shopService.addOrder(productsIds);
+        Order actual = null;
+        try {
+            actual = shopService.addOrder(productsIds);
+        } catch (ProductNotFoundException e) {
+            //THEN
+            fail();
+        }
 
         //THEN
         Order expected = new Order("-1", List.of(new Product("1", "Apfel")));
@@ -28,9 +34,8 @@ class ShopServiceTest {
         List<String> productsIds = List.of("1", "2");
 
         //WHEN
-        Order actual = shopService.addOrder(productsIds);
 
         //THEN
-        assertNull(actual);
+        assertThrows(ProductNotFoundException.class, () -> shopService.addOrder(productsIds));
     }
 }
