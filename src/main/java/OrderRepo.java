@@ -1,5 +1,6 @@
 import java.util.List;
 
+@SuppressWarnings("unused")
 public interface OrderRepo {
 
     List<Order> getOrders();
