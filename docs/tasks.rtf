@@ -1,0 +1,169 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2709
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 HelveticaNeue-Bold;\f1\fnil\fcharset0 HelveticaNeue;\f2\fnil\fcharset0 Menlo-Regular;
+}
+{\colortbl;\red255\green255\blue255;\red255\green255\blue255;\red252\green49\blue17;\red0\green0\blue0;
+\red0\green0\blue233;}
+{\*\expandedcolortbl;;\cssrgb\c100000\c100000\c100000;\cssrgb\c100000\c29020\c6667;\cssrgb\c0\c0\c0;
+\cssrgb\c0\c0\c93333;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww21000\viewh15720\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\b\fs48 \cf2 \cb3 \expnd0\expndtw0\kerning0
+\uc0\u55357 \u56345  Coding-Aufgaben: ShopService\
+\pard\pardeftab720\sa320\partightenfactor0
+
+\f1\b0\fs32 \cf0 \cb2 Heute dreht sich alles um die ShopService Aufgabe. Erg\'e4nzt oder schreibt f\'fcr alle Schritte in der Aufgabe Tests, au\'dfer es ist anders angegeben.\
+Klont Euch die Musterl\'f6sung: {\field{\*\fldinst{HYPERLINK "https://github.com/Flooooooooooorian/Recap-Project-Objektorientierung-ShopService"}}{\fldrslt \cf5 \ul \ulc5 ShopService}}. Ihr arbeitet heute in neuen Gruppenkonstellationen und sollt Erfahrung im Arbeiten mit fremden Code sammeln. Deshalb arbeitet bitte heute auf Basis der Musterl\'f6sung aus dem letzten Modul.\
+Nun entfernt die Verkn\'fcpfung zu Florians Github-Repository, in dem Ihr im Men\'fc unter "Git" "Manage Remotes" ausw\'e4hlt und dort den Eintrag "origin" entfernt.\
+Ladet das Projekt als neues Repository auf GitHub in einen von Euren eigenen GitHub-Accounts hoch: In IntelliJ w\'e4hlt bei dem geklonten Projekt im Men\'fc "Git", unter "GitHub", "Share Project on GitHub" aus.\
+Die Musterl\'f6sung ist nun der main-Branch Eures GitHub-Repositories.\
+Wie lautet der Link zu Eurem GitHub-Repository?\
+Enter answer here\
+\
+\pard\pardeftab720\partightenfactor0
+
+\f0\b\fs48 \cf2 \cb3 \uc0\u55357 \u56550  Bestellstatus\
+\pard\pardeftab720\sa320\partightenfactor0
+
+\f1\b0\fs32 \cf0 \cb2 F\'fcgt einen Bestellstatus zu der Order hinzu (PROCESSING, IN_DELIVERY, COMPLETED), um den Status der Order zu bestimmen.\
+Legt dazu einen neuen Branch an, erstellt und pusht die Commits, erstellt einen Pull-Request, reviewet den PR und merged ihn in den main-Branch.\
+Wie lautet der Link zu Eurem Pull-Request?\
+Enter answer here\
+\
+\pard\pardeftab720\partightenfactor0
+
+\f0\b\fs48 \cf2 \cb3 \uc0\u55357 \u56550  Bestellstatus\
+\pard\pardeftab720\sa320\partightenfactor0
+
+\f1\b0\fs32 \cf0 \cb2 Schreibt in dem ShopService eine Methode, die alle Bestellungen mit einem bestimmten Bestellstatus (Parameter) in einer Liste zur\'fcckgibt. Nutzt daf\'fcr Streams.\
+\
+\pard\pardeftab720\partightenfactor0
+
+\f0\b\fs48 \cf2 \cb3 \uc0\u55357 \u56550  Optional Product\
+\pard\pardeftab720\sa320\partightenfactor0
+
+\f1\b0\fs32 \cf0 \cb2 Bearbeitet die Methode 'getProductById' in eurem ProductRepo, sodass sie ein Optional<Product> zur\'fcckgibt, wenn das Produkt existiert, andernfalls ein leeres Optional.\
+\
+\pard\pardeftab720\partightenfactor0
+
+\f0\b\fs48 \cf2 \cb3 \uc0\u55357 \u56550  Exceptions\
+\pard\pardeftab720\sa320\partightenfactor0
+
+\f1\b0\fs32 \cf0 \cb2 Bearbeitet die Methode 'addOrder' im ShopService, sodass eine Exception geworfen wird, wenn das Product nicht vorhanden ist.\
+\
+\pard\pardeftab720\partightenfactor0
+
+\f0\b\fs48 \cf2 \cb3 \uc0\u55357 \u56550  Lombok\
+\pard\pardeftab720\sa320\partightenfactor0
+
+\f1\b0\fs32 \cf0 \cb2 F\'fcgt eine 'updateOrder' Methode im ShopService hinzu, die anhand einer orderId und einem neuen Bestellstatus die Order aktualisiert. Nutze daf\'fcr Lombok 
+\f2\fs26 @With
+\f1\fs32  Annotation.\
+\
+\pard\pardeftab720\partightenfactor0
+
+\f0\b\fs48 \cf2 \cb3 \uc0\u55357 \u56550  Bestelldatum\
+\pard\pardeftab720\sa320\partightenfactor0
+
+\f1\b0\fs32 \cf0 \cb2 Erweitert das Order-Objekt um ein Feld, das den Bestellzeitpunkt speichert. In der 'addOrder' Methode soll dieses Feld mit dem aktuellen Zeitpunkt bef\'fcllt werden.\
+Dieser Zeitpunkt soll vor Gericht als Nachweis verwendet werden k\'f6nnen, wenn Besteller*innen behaupten, die Bestellung gar nicht aufgegeben zu haben. \'dcberlegt Euch, welcher Datentyp daf\'fcr am besten geeignet ist - auch wenn Besteller*innen aus dem Ausland bestellen.\
+\
+\pard\pardeftab720\partightenfactor0
+
+\f0\b\fs48 \cf2 \cb3 \uc0\u11088 \u65039  Bonus-Aufgabe: in Main Repo festlegen\
+\pard\pardeftab720\sa320\partightenfactor0
+
+\f1\b0\fs32 \cf0 \cb2 Erstellt eine Main-Klasse mit main-Methode. In dieser Methode erstellt eine Instanz des Shop-Services.\
+Auch die konkreten Instanzen f\'fcr OrderRepo und ShopRepo sollen hier in der main-Methode erstellt werden. \'dcbergebt sie dem ShopService-Konstruktor. Nutzt die 
+\f2\fs26 @RequiredArgsConstructor
+\f1\fs32 -Annotation im Shop-Service um einen entsprechenden Konstruktor zu generieren.\
+Legt drei konkrete Bestellungen fest und f\'fcgt sie alle dem ShopService hinzu.\
+\
+\pard\pardeftab720\partightenfactor0
+
+\f0\b\fs48 \cf2 \cb3 \uc0\u11088 \u65039  Bonus-Aufgabe: ID-Erstellung\
+\pard\pardeftab720\sa320\partightenfactor0
+
+\f1\b0\fs32 \cf0 \cb2 Erstellt f\'fcr die Erstellung einer ID einen 
+\f2\fs26 IdService
+\f1\fs32 , der in der Methode 
+\f2\fs26 generateId
+\f1\fs32  jeweils eine neue UUID zur\'fcckgibt (mithilfe von 
+\f2\fs26 java.util.UUID
+\f1\fs32 ). Erstellt eine konkrete Implementierung des 
+\f2\fs26 IdService
+\f1\fs32  in der main-Methode und \'fcbergebt sie dem ShopService-Konstruktor.\
+\
+\pard\pardeftab720\partightenfactor0
+
+\f0\b\fs48 \cf2 \cb3 \uc0\u11088 \u65039  Bonus-Aufgabe: Liegengebliebenes\
+\pard\pardeftab720\sa320\partightenfactor0
+
+\f1\b0\fs32 \cf0 \cb2 Schreibt eine Methode 
+\f2\fs26 getOldestOrderPerStatus
+\f1\fs32 , die eine Map mit dem \'e4ltesten Order-Objekt pro Status zur\'fcckgibt.\
+\
+\pard\pardeftab720\partightenfactor0
+
+\f0\b\fs48 \cf2 \cb3 \uc0\u11088 \u65039  Bonus-Aufgabe: Transaktions-File\
+\pard\pardeftab720\sa320\partightenfactor0
+
+\f1\b0\fs32 \cf0 \cb2 Lass die Main-Methode eine Datei 
+\f2\fs26 transactions.txt
+\f1\fs32  einlesen, in diesem Format:\
+\pard\pardeftab720\partightenfactor0
+
+\f2\fs26 \cf0 addOrder A 1 2 3\
+addOrder B 4 1\
+setStatus A COMPLETED\
+printOrders\
+\pard\pardeftab720\partightenfactor0
+
+\f1\fs32 \cf0 \
+\pard\pardeftab720\sa320\partightenfactor0
+\cf0 Diese Datei soll eine Liste von Befehlszeilen enthalten, die der ShopService ausf\'fchren soll.\
+Folgende Befehlszeilen sollen unterst\'fctzt werden:\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f0\b\fs48 \cf2 \cb3 addOrder\
+\pard\pardeftab720\sa320\partightenfactor0
+
+\f1\b0\fs32 \cf0 \cb2 F\'fcgt eine neue Bestellung hinzu. Die Bestellung soll die \'fcbergebenen Produkt-IDs enthalten. Die Bestellung soll den Status 
+\f2\fs26 PROCESSING
+\f1\fs32  haben.\
+\pard\pardeftab720\sa320\partightenfactor0
+
+\f2\fs26 \cf0 addOrder <alias for order within file> <productId> [<productId> ...]
+\f1\fs32 \
+Speichert die OrderID, die Euch der ShopService zur\'fcckgibt, in einer Datenstruktur (zu dem angegebenen, frei w\'e4hlbaren Alias), sodass Ihr sp\'e4ter den Status der Bestellung \'e4ndern k\'f6nnt.\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f0\b\fs48 \cf2 \cb3 setStatus\
+\pard\pardeftab720\sa320\partightenfactor0
+
+\f1\b0\fs32 \cf0 \cb2 Setzt den Status einer Bestellung.\
+\pard\pardeftab720\sa320\partightenfactor0
+
+\f2\fs26 \cf0 setStatus <alias for order within file> <status>
+\f1\fs32 \cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f0\b\fs48 \cf2 \cb3 printOrders\
+\pard\pardeftab720\sa320\partightenfactor0
+
+\f1\b0\fs32 \cf0 \cb2 Gibt alle Bestellungen aus.\cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f0\b\fs48 \cf2 \cb3 \uc0\u11088 \u65039  Bonus-Aufgabe: Mengenangaben und Lagerbest\'e4nde\
+\pard\pardeftab720\sa320\partightenfactor0
+
+\f1\b0\fs32 \cf0 \cb2 F\'fcgt eine Mengenangabe zu den Produkten hinzu. Wenn ein Produkt bestellt wird, wird die Menge des Produkts verringert. Wenn ein Produkt nicht mehr auf Lager ist, kann es nicht mehr bestellt werden. Lasse auch Flie\'dfkommazahlen zu. Und erweitere die Befehlsverarbeitung mit 
+\f2\fs26 transactions.txt
+\f1\fs32  entsprechend.\
+\
+}
