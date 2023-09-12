@@ -13,13 +13,13 @@ public class Main {
 
         ProductRepo productRepo = new ProductRepo();
         try {
-            productRepo.addProduct(new Product("1", "Product 1"));
-            productRepo.addProduct(new Product("2", "Product 2"));
-            productRepo.addProduct(new Product("3", "Product 3"));
-            productRepo.addProduct(new Product("4", "Product 4"));
-            productRepo.addProduct(new Product("5", "Product 5"));
-            productRepo.addProduct(new Product("6", "Product 6"));
-            productRepo.addProduct(new Product("7", "Product 7"));
+            productRepo.addProduct(new Product("1", "Product 1", 30));
+            productRepo.addProduct(new Product("2", "Product 2", 15));
+            productRepo.addProduct(new Product("3", "Product 3", 56));
+            productRepo.addProduct(new Product("4", "Product 4", 74));
+            productRepo.addProduct(new Product("5", "Product 5", 12));
+            productRepo.addProduct(new Product("6", "Product 6", 4324));
+            productRepo.addProduct(new Product("7", "Product 7", 32));
         } catch (ProductIdAlreadyExistsException e) {
             System.err.printf("ProductIdAlreadyExistsException: %s%n", e.getMessage());
             return;
@@ -53,7 +53,7 @@ public class Main {
             if (product==null)
                 System.out.printf("   [%d]  <null>%n", i+1);
             else
-                System.out.printf("   [%d]  \"%s\"  [%s]%n", i+1, product.name(), product.id());
+                System.out.printf(Locale.ENGLISH, "   [%d]  %1.2fx \"%s\"  [%s]%n", i+1, product.amount(), product.name(), product.id());
         }
     }
 
@@ -75,7 +75,7 @@ public class Main {
                     if (product==null)
                         System.out.printf("         [%d]  <null>%n", j+1);
                     else
-                        System.out.printf("         [%d]  \"%s\"  [%s]%n", j+1, product.name(), product.id());
+                        System.out.printf(Locale.ENGLISH, "         [%d]  %1.2fx \"%s\"  [%s]%n", j+1, product.amount(), product.name(), product.id());
                 }
             }
         }
@@ -126,14 +126,31 @@ public class Main {
                 return;
             }
 
+            if (values.length%2 != 1) {
+                System.err.printf("Error in line %d \"%s\": wrong argument count%n", lineIndex, line);
+                return;
+            }
+
             String orderIdAlias = values[0];
 
-            List<String> products = Arrays.asList(Arrays.copyOfRange(values, 1, values.length));
+            List<String> valueList = Arrays.asList(Arrays.copyOfRange(values, 1, values.length));
+            Need.ListBuilder builder = Need.builder();
+            for (int i=0; i<valueList.size(); i+=2) {
+                String id = valueList.get(i);
+                String amountStr = valueList.get(i+1);
+                double amount = Double.parseDouble(amountStr);
+                builder.add(id, amount);
+            }
+            List<Need> needs = builder.getList();
+
             Order order;
             try {
-                order = shopService.addOrder(products);
+                order = shopService.addOrder(needs);
             } catch (ProductNotFoundException e) {
-                System.err.printf("Error in line %d \"%s\": at least one product id is not assigned with an existing product%n", lineIndex, line);
+                System.err.printf("Error in line %d \"%s\": at least one product id is not assigned with an existing product (%s)%n", lineIndex, line, e.getMessage());
+                return;
+            } catch (NotEnoughAmountException e) {
+                System.err.printf("Error in line %d \"%s\": storage amount of at least one product is too low (%s)%n", lineIndex, line, e.getMessage());
                 return;
             }
 

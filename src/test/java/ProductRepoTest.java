@@ -10,14 +10,14 @@ class ProductRepoTest {
     void getProducts() {
         //GIVEN
         ProductRepo repo = new ProductRepo();
-        repo.getProducts().put("1", new Product("1", "Apfel"));
+        repo.getProducts().put("1", new Product("1", "Apfel", 10.5));
 
         //WHEN
         Map<String, Product> actual = repo.getProducts();
 
         //THEN
         Map<String,Product> expected = new HashMap<>();
-        expected.put("1", new Product("1", "Apfel"));
+        expected.put("1", new Product("1", "Apfel", 10.5));
         assertEquals(actual, expected);
     }
 
@@ -25,13 +25,13 @@ class ProductRepoTest {
     void getProductById() {
         //GIVEN
         ProductRepo repo = new ProductRepo();
-        repo.getProducts().put("1", new Product("1", "Apfel"));
+        repo.getProducts().put("1", new Product("1", "Apfel", 10.5));
 
         //WHEN
         Optional<Product> actual = repo.getProductById("1");
 
         //THEN
-        Product expected = new Product("1", "Apfel");
+        Product expected = new Product("1", "Apfel", 10.5);
         assertNotNull(actual);
         assertTrue(actual.isPresent());
         assertEquals(actual.get(), expected);
@@ -41,8 +41,8 @@ class ProductRepoTest {
     void addProduct() {
         //GIVEN
         ProductRepo repo = new ProductRepo();
-        repo.getProducts().put("1", new Product("1", "Apfel"));
-        Product newProduct = new Product("2", "Banane");
+        repo.getProducts().put("1", new Product("1", "Apfel", 10.5));
+        Product newProduct = new Product("2", "Banane", 8);
 
         //WHEN
         try {
@@ -53,7 +53,7 @@ class ProductRepoTest {
         }
 
         //THEN
-        Product expected = new Product("2", "Banane");
+        Product expected = new Product("2", "Banane", 8);
         Optional<Product> product = repo.getProductById("2");
         assertNotNull(product);
         assertTrue(product.isPresent());
@@ -61,10 +61,22 @@ class ProductRepoTest {
     }
 
     @Test
+    void addProduct_whenExistingID_expectException() {
+        //GIVEN
+        ProductRepo repo = new ProductRepo();
+        repo.getProducts().put("1", new Product("1", "Apfel", 10.5));
+        Product newProduct = new Product("1", "Banane", 8);
+
+        //WHEN
+        //THEN
+        assertThrows(ProductIdAlreadyExistsException.class, () -> repo.addProduct(newProduct));
+    }
+
+    @Test
     void removeProduct() {
         //GIVEN
         ProductRepo repo = new ProductRepo();
-        repo.getProducts().put("1", new Product("1", "Apfel"));
+        repo.getProducts().put("1", new Product("1", "Apfel", 10.5));
 
         //WHEN
         repo.removeProduct("1");

@@ -15,7 +15,7 @@ class OrderMapRepoTest {
         OrderMapRepo repo = new OrderMapRepo();
 
         ZonedDateTime orderDate = ZonedDateTime.of(2023, 9, 12, 12, 0, 0, 0, ZoneId.systemDefault());
-        Product product = new Product("1", "Apfel");
+        Product product = new Product("1", "Apfel", 1);
         Order newOrder = new Order("1", List.of(product), orderDate);
         repo.addOrder(newOrder);
 
@@ -25,7 +25,7 @@ class OrderMapRepoTest {
         //THEN
         List<Order> expected = new ArrayList<>();
         ZonedDateTime expOrderDate = ZonedDateTime.of(2023, 9, 12, 12, 0, 0, 0, ZoneId.systemDefault());
-        Product product1 = new Product("1", "Apfel");
+        Product product1 = new Product("1", "Apfel", 1);
         expected.add(new Order("1", List.of(product1), expOrderDate));
 
         assertEquals(actual, expected);
@@ -37,7 +37,7 @@ class OrderMapRepoTest {
         OrderMapRepo repo = new OrderMapRepo();
 
         ZonedDateTime orderDate = ZonedDateTime.of(2023, 9, 12, 12, 0, 0, 0, ZoneId.systemDefault());
-        Product product = new Product("1", "Apfel");
+        Product product = new Product("1", "Apfel", 1);
         Order newOrder = new Order("1", List.of(product), orderDate);
         repo.addOrder(newOrder);
 
@@ -46,7 +46,7 @@ class OrderMapRepoTest {
 
         //THEN
         ZonedDateTime expOrderDate = ZonedDateTime.of(2023, 9, 12, 12, 0, 0, 0, ZoneId.systemDefault());
-        Product product1 = new Product("1", "Apfel");
+        Product product1 = new Product("1", "Apfel", 1);
         Order expected = new Order("1", List.of(product1), expOrderDate);
 
         assertEquals(actual, expected);
@@ -57,7 +57,7 @@ class OrderMapRepoTest {
         //GIVEN
         OrderMapRepo repo = new OrderMapRepo();
         ZonedDateTime orderDate = ZonedDateTime.of(2023, 9, 12, 12, 0, 0, 0, ZoneId.systemDefault());
-        Product product = new Product("1", "Apfel");
+        Product product = new Product("1", "Apfel", 1);
         Order newOrder = new Order("1", List.of(product), orderDate);
 
         //WHEN
@@ -65,7 +65,7 @@ class OrderMapRepoTest {
 
         //THEN
         ZonedDateTime expOrderDate = ZonedDateTime.of(2023, 9, 12, 12, 0, 0, 0, ZoneId.systemDefault());
-        Product product1 = new Product("1", "Apfel");
+        Product product1 = new Product("1", "Apfel", 1);
         Order expected = new Order("1", List.of(product1), expOrderDate);
         assertEquals(actual, expected);
         assertEquals(repo.getOrderById("1"), expected);

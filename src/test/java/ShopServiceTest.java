@@ -32,6 +32,21 @@ class ShopServiceTest {
     }
 
     @Test
+    void addOrderTest_whenNeedOverStorageAmount_expectException() {
+        //GIVEN
+        ProductRepo productRepo = new ProductRepo();
+        productRepo.getProducts().put("1", new Product("1", "Apfel", 10.5));
+
+        ShopService shopService = new ShopService(productRepo, new OrderMapRepo(), new IdService());
+        List<Need> needs = Need.builder().add("1", 12).getList();
+
+        //WHEN
+
+        //THEN
+        assertThrows(NotEnoughAmountException.class, () -> shopService.addOrder(needs));
+    }
+
+    @Test
     void addOrderTest_whenInvalidProductId_expectException() {
         //GIVEN
         ProductRepo productRepo = new ProductRepo();

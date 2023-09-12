@@ -26,9 +26,13 @@ public class ShopService {
             if (storedProduct.amount() < need.amount())
                 throw new NotEnoughAmountException("Nicht genügend Lagerbestand vom Produkt mit der Id \"%s\" vorhanden!", need.productId());
 
+            storedProduct = productRepo.removeProduct(storedProduct.id());
             storedProduct = storedProduct.withAmount( storedProduct.amount() - need.amount() );
-            productRepo.removeProduct(storedProduct.id());
-            productRepo.addProduct(storedProduct);
+            try {
+                productRepo.addProduct(storedProduct);
+            } catch (ProductIdAlreadyExistsException e) {
+                throw new IllegalStateException();
+            }
 
             products.add(
                     storedProduct.withAmount( need.amount() )
